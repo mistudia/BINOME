@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>miStudia – Binomische Formeln</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1565c0">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 body{font-family:Arial,sans-serif;margin:0;background:linear-gradient(#eef5ff,#dfefff)}
 header,main,footer{max-width:960px;margin:auto}
@@ -307,6 +311,14 @@ function feiern(){
   }
 }
 neueAufgabe();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch((err) => {
+      console.warn("Service Worker Registrierung fehlgeschlagen:", err);
+    });
+  });
+}
 </script>
 </body>
 </html>
