@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.mistudia.binomischeformeln",
+        "sha256_cert_fingerprints": ["14:51:DA:87:FE:6C:AB:DF:36:52:3C:1E:B6:CE:11:77:39:05:E5:DB:C7:AB:01:B3:7E:7D:18:B8:DA:F8:26:A7"]
+      }
+    }]
