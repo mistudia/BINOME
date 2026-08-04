@@ -15,11 +15,18 @@ header{background:#fff;padding:25px;text-align:center}
 h1{margin:0;font-size:38px;color:#1565c0}
 main{background:#fff;margin-top:25px;padding:30px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.12)}
 .toolbar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.sprachleiste{display:flex;justify-content:center;gap:10px;margin:14px 0 4px}
+.sprache-btn{background:#1976d2;border:3px solid transparent;border-radius:10px;padding:8px 16px;font-size:24px;line-height:1;cursor:pointer;transition:.2s;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+.sprache-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.25)}
+.sprache-btn.aktiv{border-color:#ffd54f;background:#1565c0}
 button{background:#1976d2;color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:16px;font-weight:bold;cursor:pointer;transition:.25s;box-shadow:0 4px 10px rgba(0,0,0,.18)}
 button:hover{background:#1565c0;transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.25)}
 button:active{transform:scale(.98)}
+.stufe-btn{border:3px solid transparent}
+.stufe-btn.aktiv{border-color:#ffd54f;background:#1565c0}
 .btn-pruefen{background:#3367d6}.btn-pruefen:hover{background:#2b57b5}
-.btn-loesung{background:#1ea64b}.btn-loesung:hover{background:#198c3f}
+.btn-loesung{background:transparent;color:#1ea64b;border:2px solid #1ea64b;box-shadow:none}
+.btn-loesung:hover{background:#eafaf0;color:#198c3f;border-color:#198c3f;transform:translateY(-2px)}
 .btn-neu{background:#f59e0b}.btn-neu:hover{background:#d88906}
 input{font-size:20px;padding:10px;text-align:center;border:2px solid #90caf9;border-radius:8px;outline:none;transition:.2s}
 input:focus{border-color:#1976d2;box-shadow:0 0 8px rgba(25,118,210,.3)}
@@ -36,20 +43,33 @@ footer a:hover{text-decoration:underline}
 #formel{font-size:30px;font-weight:bold;color:#0d47a1}
 #formel .hv{cursor:help;border-bottom:3px dotted #1976d2;padding:0 3px;border-radius:5px;transition:.2s}
 #formel .hv:hover{background:#ffe9a8}
+.rhs{white-space:nowrap;display:inline-block}
 #zuordnung{font-size:16px;color:#555;margin-top:10px;min-height:24px}
 #zuordnung b{color:#0d47a1}
 
-#aufgabeBox{position:relative;padding:135px 0;text-align:center}
-#term{font-size:36px;font-weight:bold;display:inline-block;white-space:nowrap}
+#aufgabeBox{position:relative;padding:135px 0;text-align:center;overflow:hidden}
+#term{font-size:36px;font-weight:bold;display:inline-block;white-space:nowrap;max-width:100%}
 #term span.t{padding:0 3px;border-radius:6px;transition:.2s}
 #pfeile{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.schrittZeile{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0;font-size:20px}
+.schrittZeile{margin:16px 0;font-size:20px;text-align:center}
+.zeile-oben{display:inline-flex;align-items:center;gap:12px;text-align:left;max-width:620px}
+.ursprung-text{font-size:24px;font-weight:bold;color:#222}
 .marke{width:26px;height:26px;border-radius:50%;color:#fff;font-size:15px;font-weight:bold;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
-.schritt{width:200px}
-.hinweis{font-size:16px;color:#555;flex:1 1 320px}
-.op{font-size:24px;font-weight:bold;margin:0 4px}
-#ergebnisZeile{margin-top:22px;padding-top:18px;border-top:1px dashed #bbd}
-#ergebnis{width:340px}
+.schritt{width:150px}
+.hinweis{font-size:16px;color:#555;flex:1 1 auto}
+.op{font-size:24px;font-weight:bold}
+.zeile-unten{margin-top:8px;text-align:center}
+.eingabe{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;vertical-align:middle}
+.bruch{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.75em;line-height:1.05em;margin:0 2px;position:relative;top:-2px}
+.bruch .z{border-bottom:1.6px solid currentColor;padding:0 4px}
+.bruch .n{padding:0 4px}
+#ursprungZeile{margin-top:22px;padding-top:18px;border-top:1px dashed #bbd;text-align:center}
+.math-eingabe{display:inline-block;font-family:Arial,sans-serif;font-size:20px;padding:10px 14px;text-align:center;border:2px solid #90caf9;border-radius:8px;outline:none;transition:.2s;cursor:text;vertical-align:middle;white-space:nowrap}
+.math-eingabe:focus{border-color:#1976d2;box-shadow:0 0 8px rgba(25,118,210,.3)}
+.math-eingabe:empty:before{content:attr(data-placeholder);color:#999}
+sup{font-size:.68em}
+.ergebnis-eingabe{min-width:200px;max-width:100%}
+.hidechar{display:none}
 #status{text-align:center;font-size:20px;font-weight:bold;min-height:30px;margin-top:14px}
 .ok{border-color:#1ea64b !important;background:#eafaf0}
 .falsch{border-color:#e53935 !important;background:#fdecec}
@@ -64,19 +84,25 @@ footer a:hover{text-decoration:underline}
 <a href="https://mistudia.com" target="_blank" rel="noopener noreferrer">
   <img src="mistudia-logo.png" id="logoOben" alt="miStudia – Lernen mit Spaß!">
 </a>
-<h1>Binomische Formeln</h1>
+<h1 id="titel">Binomische Formeln</h1>
+<div class="sprachleiste">
+  <button class="sprache-btn" id="langDe" onclick="setLang('de')">🇩🇪</button>
+  <button class="sprache-btn" id="langEn" onclick="setLang('en')">🇺🇸</button>
+  <button class="sprache-btn" id="langEs" onclick="setLang('es')">🇪🇸</button>
+  <button class="sprache-btn" id="langZh" onclick="setLang('zh')">🇨🇳</button>
+</div>
 <div class="toolbar">
-  <button onclick="stufe='leicht';neueAufgabe()">😊 Leicht</button>
-  <button onclick="stufe='mittel';neueAufgabe()">🧠 Mittel</button>
-  <button onclick="stufe='schwer';neueAufgabe()">🔥 Schwer</button>
+  <button class="stufe-btn" id="btnLeicht" onclick="stufe='leicht';neueAufgabe()">😊 Leicht</button>
+  <button class="stufe-btn" id="btnMittel" onclick="stufe='mittel';neueAufgabe()">🧠 Mittel</button>
+  <button class="stufe-btn" id="btnSchwer" onclick="stufe='schwer';neueAufgabe()">🔥 Schwer</button>
 </div>
 </header>
 
 <main>
-<div class="art">Zwei Klammern ausmultiplizieren – jedes Element der 1. Klammer mit jedem Element der 2. Klammer</div>
+<div class="art" id="artText">Zwei Klammern ausmultiplizieren – jedes Element der 1. Klammer mit jedem Element der 2. Klammer</div>
 
 <div id="formelBox">
-  <div class="label">Zugehörige binomische Formel (allgemeine Form) – fahre mit der Maus über a, b, a², 2ab …</div>
+  <div class="label" id="formelLabel">1. Binomische Formel</div>
   <div id="formel"></div>
   <div id="zuordnung">Hier steht, was der Teil in dieser Aufgabe bedeutet.</div>
 </div>
@@ -88,16 +114,23 @@ footer a:hover{text-decoration:underline}
 
 <div id="schritte"></div>
 
-<div id="ergebnisZeile" class="schrittZeile">
-  <span class="marke" style="background:#1565c0">=</span>
-  <span class="hinweis">Zusammengefasstes Ergebnis:</span>
-  <input id="ergebnis" placeholder="z. B. x^2+10x+25">
+<div id="ursprungZeile">
+  <span class="ursprung-text" id="ursprungAnzeige"></span>
+</div>
+
+<div id="ergebnisZeile">
+  <div class="zeile-unten">
+    <span class="eingabe">
+      <span class="marke" style="background:#000">=</span>
+      <div id="ergebnis" class="math-eingabe ergebnis-eingabe" contenteditable="true" data-placeholder="z. B. x^2+10x+25"></div>
+    </span>
+  </div>
 </div>
 
 <div class="toolbar">
-  <button class="btn-pruefen" onclick="pruefen()">✓ Prüfen</button>
-  <button class="btn-loesung" onclick="loesung()">💡 Lösung</button>
-  <button class="btn-neu" onclick="neueAufgabe()">🔄 Neue Aufgabe</button>
+  <button class="btn-loesung" id="btnLoesung" onclick="loesung()">💡 Lösung</button>
+  <button class="btn-pruefen" id="btnPruefen" onclick="pruefen()">✓ Prüfen</button>
+  <button class="btn-neu" id="btnNeu" onclick="neueAufgabe()">🔄 Neue Aufgabe</button>
 </div>
 
 <div id="status"></div>
@@ -122,6 +155,142 @@ const farben=["#1976d2","#e53935","#f59e0b","#1ea64b"];
 const paare=[[0,2],[0,3],[1,2],[1,3]];
 const oben=[true,true,false,false]; // Pfeil 1+2 über dem Term, 3+4 darunter
 
+/* ---------- Übersetzungen ---------- */
+let lang="de";
+const TR={
+  de:{
+    title:"Binomische Formeln",
+    easy:"😊 Leicht", medium:"🧠 Mittel", hard:"🔥 Schwer",
+    artText:"Zwei Klammern ausmultiplizieren – jedes Element der 1. Klammer mit jedem Element der 2. Klammer",
+    formelName:["1. Binomische Formel","2. Binomische Formel","3. Binomische Formel"],
+    zuordnungDefault:"Hier steht, was der Teil in dieser Aufgabe bedeutet.",
+    aInfo:"a = <b>{v}</b>",
+    bInfo:"b = <b>{v}</b>",
+    a2Info:"a² = ({a})² = <b>{v}</b>",
+    twoabInfo:"2ab = 2 · {a} · {b} = <b>{v}</b>",
+    twoabNote:"  (das sind Pfeil 2 + Pfeil 3 zusammen)",
+    b2Info:"b² = ({b})² = <b>{v}</b>",
+    zuordnungHover:"a = <b>{a}</b>, b = <b>{b}</b> – fahre über einen Teil der Formel.",
+    steps:[
+      "1. Element der 1. Klammer · 1. Element der 2. Klammer",
+      "1. Element der 1. Klammer · 2. Element der 2. Klammer",
+      "2. Element der 1. Klammer · 1. Element der 2. Klammer",
+      "2. Element der 1. Klammer · 2. Element der 2. Klammer"
+    ],
+    zwischenergebnis:"Zwischenergebnis",
+    ergebnisLabel:"Zusammengefasstes Ergebnis:",
+    ergebnisPlaceholder:"z. B. x^2+10x+25",
+    pruefenBtn:"✓ Prüfen", loesungBtn:"💡 Lösung", neueAufgabeBtn:"🔄 Neue Aufgabe",
+    statusRichtig:"🎉 Super, alles richtig!",
+    statusFalsch:"Noch nicht ganz – schau dir die Pfeile an!",
+    statusLoesung:"💡 So geht's!"
+  },
+  en:{
+    title:"Binomial Formulas",
+    easy:"😊 Easy", medium:"🧠 Medium", hard:"🔥 Hard",
+    artText:"Multiplying two brackets – each element of the 1st bracket with each element of the 2nd bracket",
+    formelName:["1st Binomial Formula","2nd Binomial Formula","3rd Binomial Formula"],
+    zuordnungDefault:"This shows what this part of the formula means.",
+    aInfo:"a = <b>{v}</b>",
+    bInfo:"b = <b>{v}</b>",
+    a2Info:"a² = ({a})² = <b>{v}</b>",
+    twoabInfo:"2ab = 2 · {a} · {b} = <b>{v}</b>",
+    twoabNote:"  (that's arrows 2 + 3 combined)",
+    b2Info:"b² = ({b})² = <b>{v}</b>",
+    zuordnungHover:"a = <b>{a}</b>, b = <b>{b}</b> – hover over a part of the formula.",
+    steps:[
+      "1st element of the 1st bracket · 1st element of the 2nd bracket",
+      "1st element of the 1st bracket · 2nd element of the 2nd bracket",
+      "2nd element of the 1st bracket · 1st element of the 2nd bracket",
+      "2nd element of the 1st bracket · 2nd element of the 2nd bracket"
+    ],
+    zwischenergebnis:"Intermediate result",
+    ergebnisLabel:"Simplified result:",
+    ergebnisPlaceholder:"e.g. x^2+10x+25",
+    pruefenBtn:"✓ Check", loesungBtn:"💡 Solution", neueAufgabeBtn:"🔄 New task",
+    statusRichtig:"🎉 Great, all correct!",
+    statusFalsch:"Not quite yet – look at the arrows!",
+    statusLoesung:"💡 Here's how!"
+  },
+  es:{
+    title:"Fórmulas Binómicas",
+    easy:"😊 Fácil", medium:"🧠 Medio", hard:"🔥 Difícil",
+    artText:"Multiplicar dos paréntesis – cada elemento del 1er paréntesis con cada elemento del 2º paréntesis",
+    formelName:["1ª Fórmula Binómica","2ª Fórmula Binómica","3ª Fórmula Binómica"],
+    zuordnungDefault:"Aquí se explica lo que significa esta parte de la fórmula.",
+    aInfo:"a = <b>{v}</b>",
+    bInfo:"b = <b>{v}</b>",
+    a2Info:"a² = ({a})² = <b>{v}</b>",
+    twoabInfo:"2ab = 2 · {a} · {b} = <b>{v}</b>",
+    twoabNote:"  (flechas 2 + 3 juntas)",
+    b2Info:"b² = ({b})² = <b>{v}</b>",
+    zuordnungHover:"a = <b>{a}</b>, b = <b>{b}</b> – pasa el ratón sobre una parte de la fórmula.",
+    steps:[
+      "1er elemento del 1er paréntesis · 1er elemento del 2º paréntesis",
+      "1er elemento del 1er paréntesis · 2º elemento del 2º paréntesis",
+      "2º elemento del 1er paréntesis · 1er elemento del 2º paréntesis",
+      "2º elemento del 1er paréntesis · 2º elemento del 2º paréntesis"
+    ],
+    zwischenergebnis:"Resultado intermedio",
+    ergebnisLabel:"Resultado simplificado:",
+    ergebnisPlaceholder:"p. ej. x^2+10x+25",
+    pruefenBtn:"✓ Comprobar", loesungBtn:"💡 Solución", neueAufgabeBtn:"🔄 Nueva tarea",
+    statusRichtig:"🎉 ¡Genial, todo correcto!",
+    statusFalsch:"Todavía no – ¡mira las flechas!",
+    statusLoesung:"💡 ¡Así se hace!"
+  },
+  zh:{
+    title:"二项式公式",
+    easy:"😊 简单", medium:"🧠 中等", hard:"🔥 困难",
+    artText:"展开两个括号 – 第一个括号的每一项乘以第二个括号的每一项",
+    formelName:["第一二项式公式","第二二项式公式","第三二项式公式"],
+    zuordnungDefault:"这里说明公式中所选部分的含义。",
+    aInfo:"a = <b>{v}</b>",
+    bInfo:"b = <b>{v}</b>",
+    a2Info:"a² = ({a})² = <b>{v}</b>",
+    twoabInfo:"2ab = 2 · {a} · {b} = <b>{v}</b>",
+    twoabNote:"（即箭头 2 + 箭头 3 之和）",
+    b2Info:"b² = ({b})² = <b>{v}</b>",
+    zuordnungHover:"a = <b>{a}</b>，b = <b>{b}</b> – 将鼠标悬停在公式的某一部分上。",
+    steps:[
+      "第1个括号的第1项 · 第2个括号的第1项",
+      "第1个括号的第1项 · 第2个括号的第2项",
+      "第1个括号的第2项 · 第2个括号的第1项",
+      "第1个括号的第2项 · 第2个括号的第2项"
+    ],
+    zwischenergebnis:"中间结果",
+    ergebnisLabel:"化简结果：",
+    ergebnisPlaceholder:"例如 x^2+10x+25",
+    pruefenBtn:"✓ 检查", loesungBtn:"💡 答案", neueAufgabeBtn:"🔄 新题目",
+    statusRichtig:"🎉 太棒了，全部正确！",
+    statusFalsch:"还没完全正确 – 看看箭头提示！",
+    statusLoesung:"💡 解题过程如下！"
+  }
+};
+function T(){return TR[lang]}
+function wendeSpracheAn(){
+  const t=T();
+  document.title="miStudia – "+t.title;
+  document.documentElement.lang=lang;
+  document.getElementById("titel").textContent=t.title;
+  document.getElementById("btnLeicht").textContent=t.easy;
+  document.getElementById("btnMittel").textContent=t.medium;
+  document.getElementById("btnSchwer").textContent=t.hard;
+  document.getElementById("artText").textContent=t.artText;
+  document.getElementById("ergebnis").setAttribute("data-placeholder",t.ergebnisPlaceholder);
+  passeEingabeGroesseAn(document.getElementById("ergebnis"));
+  document.getElementById("btnPruefen").textContent=t.pruefenBtn;
+  document.getElementById("btnLoesung").textContent=t.loesungBtn;
+  document.getElementById("btnNeu").textContent=t.neueAufgabeBtn;
+  document.querySelectorAll(".sprache-btn").forEach(b=>b.classList.remove("aktiv"));
+  document.getElementById("lang"+lang.charAt(0).toUpperCase()+lang.slice(1)).classList.add("aktiv");
+}
+function setLang(l){
+  lang=l;
+  wendeSpracheAn();
+  neueAufgabe();
+}
+
 /* ---------- Monome: {c, x, y} ---------- */
 function rnd(n){return Math.floor(Math.random()*n)}
 function mul(m,n){return {c:m.c*n.c,x:m.x+n.x,y:m.y+n.y}}
@@ -134,6 +303,7 @@ function fmt(m){
   return (m.c<0?"-":"")+z+vars;
 }
 function mitVz(m){return (m.c<0?" − ":" + ")+fmt(skal(m,m.c<0?-1:1))}
+function hochAn(str){return String(str).replace(/\^(-?\d+)/g,"<sup>$1</sup>")}
 
 /* ---------- Aufgabe ---------- */
 function zufallsMonom(){
@@ -146,6 +316,8 @@ function zweitesMonom(){
   return {c:rnd(9)+1,x:0,y:0};
 }
 function neueAufgabe(){
+  document.querySelectorAll(".stufe-btn").forEach(b=>b.classList.remove("aktiv"));
+  document.getElementById("btn"+stufe.charAt(0).toUpperCase()+stufe.slice(1)).classList.add("aktiv");
   const typ=["quadPlus","quadMinus","diff"][rnd(3)];
   let a=zufallsMonom(), b=zweitesMonom();
   if(stufe==="schwer"&&a.x===b.x&&a.y===b.y&&a.c===b.c)b.c=b.c+1;
@@ -162,41 +334,151 @@ function neueAufgabe(){
   zeigeFormel();
   zeichneTerm();
   baueSchritte();
-  const e=document.getElementById("ergebnis");e.value="";e.className="";
+  const e=document.getElementById("ergebnis");e.innerHTML="";e.className="math-eingabe ergebnis-eingabe";
+  passeEingabeGroesseAn(e);
   document.getElementById("status").textContent="";
   document.getElementById("elefant").style.display="none";
 }
 function zeigeFormel(){
+  const t=T();
   const A2=fmt(mul(A.a,A.a)), B2=fmt(mul(A.b,A.b)), AB=fmt(skal(mul(A.a,A.b),2));
-  const ta="a = <b>"+fmt(A.a)+"</b> (1. Element der Klammer)";
-  const tb="b = <b>"+fmt(A.b)+"</b> (2. Element der Klammer, ohne Vorzeichen)";
-  const t2="a² = ("+fmt(A.a)+")² = <b>"+A2+"</b>";
-  const tab="2ab = 2 · "+fmt(A.a)+" · "+fmt(A.b)+" = <b>"+AB+"</b>  (das sind Pfeil 2 + Pfeil 3 zusammen)";
-  const tb2="b² = ("+fmt(A.b)+")² = <b>"+B2+"</b>";
+  const ta=t.aInfo.replace("{v}",hochAn(fmt(A.a)));
+  const tbPlus=t.bInfo.replace("{v}",hochAn(fmt(A.b)));
+  const tbMinus=t.bInfo.replace("{v}",hochAn(fmt(skal(A.b,-1))));
+  const t2=t.a2Info.replace("{a}",hochAn(fmt(A.a))).replace("{v}",hochAn(A2));
+  const tab=t.twoabInfo.replace("{a}",hochAn(fmt(A.a))).replace("{b}",hochAn(fmt(A.b))).replace("{v}",hochAn(AB))+t.twoabNote;
+  const tb2=t.b2Info.replace("{b}",hochAn(fmt(A.b))).replace("{v}",hochAn(B2));
   const h=(txt,info)=>"<span class='hv' data-info=\""+info.replace(/"/g,"&quot;")+"\">"+txt+"</span>";
-  let f="";
-  if(A.typ==="quadPlus")
-    f="( "+h("a",ta)+" + "+h("b",tb)+" )² = "+h("a²",t2)+" + "+h("2ab",tab)+" + "+h("b²",tb2);
-  else if(A.typ==="quadMinus")
-    f="( "+h("a",ta)+" − "+h("b",tb)+" )² = "+h("a²",t2)+" − "+h("2ab",tab)+" + "+h("b²",tb2);
-  else
-    f="( "+h("a",ta)+" + "+h("b",tb)+" ) · ( "+h("a",ta)+" − "+h("b",tb)+" ) = "+h("a²",t2)+" − "+h("b²",tb2);
+  let f="", nameIdx=2;
+  if(A.typ==="quadPlus"){
+    nameIdx=0;
+    f="("+h("a",ta)+" + "+h("b",tbPlus)+")² <span class='rhs'>= ("+h("a",ta)+" + "+h("b",tbPlus)+") · ("+h("a",ta)+" + "+h("b",tbPlus)+")</span> <span class='rhs'>= "+h("a²",t2)+" + "+h("2ab",tab)+" + "+h("b²",tb2)+"</span>";
+  }else if(A.typ==="quadMinus"){
+    nameIdx=1;
+    f="("+h("a",ta)+" − "+h("b",tbMinus)+")² <span class='rhs'>= ("+h("a",ta)+" − "+h("b",tbMinus)+") · ("+h("a",ta)+" − "+h("b",tbMinus)+")</span> <span class='rhs'>= "+h("a²",t2)+" − "+h("2ab",tab)+" + "+h("b²",tb2)+"</span>";
+  }else{
+    nameIdx=2;
+    f="( "+h("a",ta)+" + "+h("b",tbPlus)+" ) · ( "+h("a",ta)+" − "+h("b",tbMinus)+" ) <span class='rhs'>= "+h("a²",t2)+" − "+h("b²",tb2)+"</span>";
+  }
+  document.getElementById("formelLabel").textContent=t.formelName[nameIdx];
   const box=document.getElementById("formel");
   box.innerHTML=f;
   const z=document.getElementById("zuordnung");
-  z.innerHTML="a = <b>"+fmt(A.a)+"</b>, b = <b>"+fmt(A.b)+"</b> – fahre über einen Teil der Formel.";
+  const standardText=t.zuordnungHover.replace("{a}",hochAn(fmt(A.a))).replace("{b}",hochAn(fmt(A.b)));
+  z.innerHTML=standardText;
   box.querySelectorAll(".hv").forEach(s=>{
-    s.title=s.dataset.info.replace(/<\/?b>/g,"");
     s.addEventListener("mouseenter",()=>z.innerHTML=s.dataset.info);
-    s.addEventListener("mouseleave",()=>z.innerHTML="a = <b>"+fmt(A.a)+"</b>, b = <b>"+fmt(A.b)+"</b> – fahre über einen Teil der Formel.");
+    s.addEventListener("mouseleave",()=>z.innerHTML=standardText);
   });
 }
 function zeichneTerm(){
   const t=document.getElementById("term");
-  const k=(i0,i1,s)=>"( <span class='t' id='t"+i0+"'>"+fmt(A.a)+"</span> "+(s<0?"−":"+")+
-    " <span class='t' id='t"+i1+"'>"+fmt(A.b)+"</span> )";
+  const k=(i0,i1,s)=>"( <span class='t' id='t"+i0+"'>"+hochAn(fmt(A.a))+"</span> "+(s<0?"−":"+")+
+    " <span class='t' id='t"+i1+"'>"+hochAn(fmt(A.b))+"</span> )";
   t.innerHTML=k(0,1,A.s1)+" · "+k(2,3,A.s2);
+  passeTermGroesseAn();
   requestAnimationFrame(zeichnePfeile);
+  const kEinfach=(s)=>"( "+hochAn(fmt(A.a))+" "+(s<0?"−":"+")+" "+hochAn(fmt(A.b))+" )";
+  const kEngKlammer=(s)=>"("+hochAn(fmt(A.a))+" "+(s<0?"−":"+")+" "+hochAn(fmt(A.b))+")";
+  const ursprungEl=document.getElementById("ursprungAnzeige");
+  ursprungEl.innerHTML=(A.typ==="diff")?(kEinfach(A.s1)+" · "+kEinfach(A.s2)):(kEngKlammer(A.s1)+"²");
+}
+function passeTermGroesseAn(){
+  const t=document.getElementById("term");
+  const box=document.getElementById("aufgabeBox");
+  const maxBreite=box.clientWidth-16;
+  let groesse=36;
+  t.style.fontSize=groesse+"px";
+  while(t.scrollWidth>maxBreite&&groesse>15){
+    groesse--;
+    t.style.fontSize=groesse+"px";
+  }
+}
+window.addEventListener("resize",()=>{passeTermGroesseAn();requestAnimationFrame(zeichnePfeile);});
+
+/* ---------- Eingabefelder: Schrift automatisch anpassen, nichts wird abgeschnitten ---------- */
+function passeEingabeGroesseAn(el){
+  const istDiv=el.tagName==="DIV";
+  const text=istDiv?(el.textContent||el.getAttribute("data-placeholder")||""):(el.value||el.placeholder||"");
+  const stil=getComputedStyle(el);
+  const polster=(parseFloat(stil.paddingLeft)||10)+(parseFloat(stil.paddingRight)||10)+6;
+  const verfuegbar=el.clientWidth-polster;
+  let groesse=20;
+  const ctx=passeEingabeGroesseAn._ctx||(passeEingabeGroesseAn._ctx=document.createElement("canvas").getContext("2d"));
+  while(groesse>12){
+    ctx.font=groesse+"px Arial";
+    if(ctx.measureText(text).width<=verfuegbar)break;
+    groesse--;
+  }
+  el.style.fontSize=groesse+"px";
+}
+
+/* ---------- Cursor-Position im editierbaren Ergebnisfeld merken/wiederherstellen ---------- */
+function holeCursorPosition(el){
+  let pos=0;
+  const sel=window.getSelection();
+  if(sel.rangeCount>0){
+    const range=sel.getRangeAt(0);
+    const vorher=range.cloneRange();
+    vorher.selectNodeContents(el);
+    vorher.setEnd(range.endContainer,range.endOffset);
+    pos=vorher.toString().length;
+  }
+  return pos;
+}
+function setzeCursorPosition(el,pos){
+  const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);
+  const knoten=[];
+  let n;
+  while((n=walker.nextNode()))knoten.push(n);
+  const istInHochzahl=k=>{let e=k.parentElement;while(e&&e!==el){if(e.tagName==="SUP")return true;e=e.parentElement}return false};
+  let rest=pos, zielKnoten=null, zielOffset=0;
+  for(let i=0;i<knoten.length;i++){
+    const laenge=knoten[i].textContent.length;
+    if(rest<laenge){zielKnoten=knoten[i];zielOffset=rest;break}
+    if(rest===laenge){
+      // An einer Grenze: lieber zum Anfang des nächsten NICHT hochgestellten Textknotens springen,
+      // damit der Cursor nach einer Hochzahl wieder auf der normalen Zeile landet.
+      let j=i+1;
+      while(j<knoten.length&&istInHochzahl(knoten[j]))j++;
+      if(j<knoten.length){zielKnoten=knoten[j];zielOffset=0}
+      else{zielKnoten=knoten[i];zielOffset=laenge}
+      break;
+    }
+    rest-=laenge;
+  }
+  if(!zielKnoten&&knoten.length>0){zielKnoten=knoten[knoten.length-1];zielOffset=zielKnoten.textContent.length}
+  const range=document.createRange();
+  const sel=window.getSelection();
+  if(zielKnoten)range.setStart(zielKnoten,zielOffset);
+  else{range.selectNodeContents(el);range.collapse(false)}
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+function machEditierbar(el,beiEnter){
+  passeEingabeGroesseAn(el);
+  el.addEventListener("input",()=>{
+    const pos=holeCursorPosition(el);
+    const roh=el.textContent;
+    const formatiert=mathHTML(roh);
+    if(el.innerHTML!==formatiert){
+      el.innerHTML=formatiert;
+      setzeCursorPosition(el,pos);
+    }
+    passeEingabeGroesseAn(el);
+  });
+  el.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      e.preventDefault();
+      if(beiEnter)beiEnter();
+    }
+  });
+  el.addEventListener("paste",e=>{
+    e.preventDefault();
+    const text=(e.clipboardData||window.clipboardData).getData("text");
+    document.execCommand("insertText",false,text);
+  });
 }
 function zeichnePfeile(){
   const box=document.getElementById("aufgabeBox"), svg=document.getElementById("pfeile");
@@ -212,8 +494,8 @@ function zeichnePfeile(){
     const y2=auf?e2.top-br.top-8:e2.bottom-br.top+10;
     const gipfel=auf?y1-(34+rang*40):y1+(34+rang*40);
     const mx=(x1+x2)/2, my=gipfel+(y1-gipfel)*0.2;
-    defs+="<marker id='m"+i+"' markerWidth='9' markerHeight='9' refX='6' refY='3' orient='auto'>"+
-      "<path d='M0,0 L6,3 L0,6 Z' fill='"+farben[i]+"'/></marker>";
+    defs+="<marker id='m"+i+"' viewBox='0 0 10 10' refX='8.5' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'>"+
+      "<path d='M0,0 L10,5 L0,10 Z' fill='"+farben[i]+"'/></marker>";
     paths+="<path d='M"+x1+","+y1+" C"+x1+","+gipfel+" "+x2+","+gipfel+" "+x2+","+y2+
       "' fill='none' stroke='"+farben[i]+"' stroke-width='2.5' marker-end='url(#m"+i+")'/>"+
       "<circle cx='"+mx+"' cy='"+my+"' r='12' fill='"+farben[i]+"' stroke='#fff' stroke-width='2'/>"+
@@ -223,23 +505,36 @@ function zeichnePfeile(){
 }
 window.addEventListener("resize",()=>requestAnimationFrame(zeichnePfeile));
 
-const namen=[
- "1. Element der 1. Klammer · 1. Element der 2. Klammer",
- "1. Element der 1. Klammer · 2. Element der 2. Klammer",
- "2. Element der 1. Klammer · 1. Element der 2. Klammer",
- "2. Element der 1. Klammer · 2. Element der 2. Klammer"
-];
+function fmtKlammer(m){
+  const s=fmt(m);
+  const html=hochAn(s);
+  return s.charAt(0)==="-" ? "("+html+")" : html;
+}
 function baueSchritte(){
   document.getElementById("schritte").innerHTML=paare.map((p,i)=>
     "<div class='schrittZeile'>"+
+    "<div class='zeile-oben'>"+
     "<span class='marke' style='background:"+farben[i]+"'>"+(i+1)+"</span>"+
-    "<span class='hinweis'>"+namen[i]+" &nbsp;("+fmt(A.el[p[0]])+" · "+fmt(A.el[p[1]])+")</span>"+
-    "<span class='op'>=</span>"+
-    "<input class='schritt' id='s"+i+"' placeholder='Zwischenergebnis'>"+
+    "<span class='hinweis'>("+fmtKlammer(A.el[p[0]])+" · "+fmtKlammer(A.el[p[1]])+")</span>"+
+    "</div>"+
+    "<div class='zeile-unten'>"+
+    "<span class='eingabe'><span class='op'>=</span>"+
+    "<div class='math-eingabe schritt' id='s"+i+"' contenteditable='true' data-placeholder='"+T().zwischenergebnis+"'></div></span>"+
+    "</div>"+
     "</div>").join("");
+  for(let i=0;i<4;i++){
+    machEditierbar(document.getElementById("s"+i));
+  }
 }
 
 /* ---------- Prüfen ---------- */
+function mathHTML(str){
+  if(!str)return "";
+  let s=String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  s=s.replace(/(-?\d+)\/(-?\d+)/g,"<span class='bruch'><span class='z'>$1</span><span class='hidechar'>/</span><span class='n'>$2</span></span>");
+  s=s.replace(/\^(-?\d+)/g,"<span class='hidechar'>^</span><sup>$1</sup>");
+  return s;
+}
 function norm(t){
   return (t||"").toLowerCase().replace(/\s|\*|·/g,"")
     .replace(/−/g,"-").replace(/²/g,"^2").replace(/³/g,"^3").replace(/⁴/g,"^4")
@@ -264,29 +559,40 @@ function pruefen(){
   let alles=true;
   for(let i=0;i<4;i++){
     const inp=document.getElementById("s"+i);
-    const ok=gleich(inp.value,fmt(A.p[i]));
-    inp.className="schritt "+(ok?"ok":"falsch");
+    if(inp.textContent.trim()===""){
+      inp.className="math-eingabe schritt";
+      continue;
+    }
+    const ok=gleich(inp.textContent,fmt(A.p[i]));
+    inp.className="math-eingabe schritt "+(ok?"ok":"falsch");
     if(!ok)alles=false;
   }
   const e=document.getElementById("ergebnis");
-  const ok2=gleich(e.value,loesungsText());
-  e.className=ok2?"ok":"falsch";
+  const ok2=gleich(e.textContent,loesungsText());
+  e.className="math-eingabe ergebnis-eingabe "+(ok2?"ok":"falsch");
   if(!ok2)alles=false;
   const st=document.getElementById("status");
-  st.textContent=alles?"🎉 Super, alles richtig!":"Noch nicht ganz – schau dir die Pfeile an!";
+  st.textContent=alles?T().statusRichtig:T().statusFalsch;
   st.style.color=alles?"#1ea64b":"#e53935";
   if(alles)feiern();
 }
 function loesung(){
   for(let i=0;i<4;i++){
     const inp=document.getElementById("s"+i);
-    inp.value=fmt(A.p[i]);inp.className="schritt ok";
+    inp.innerHTML=mathHTML(fmt(A.p[i]));
+    inp.className="math-eingabe schritt ok";
+    passeEingabeGroesseAn(inp);
   }
   const e=document.getElementById("ergebnis");
-  e.value=loesungsText();e.className="ok";
+  e.innerHTML=mathHTML(loesungsText());
+  e.className="math-eingabe ergebnis-eingabe ok";
+  passeEingabeGroesseAn(e);
   const st=document.getElementById("status");
-  st.textContent="💡 So geht's!";st.style.color="#1565c0";
+  st.textContent=T().statusLoesung;st.style.color="#1565c0";
 }
+const ergebnisFeld=document.getElementById("ergebnis");
+machEditierbar(ergebnisFeld,pruefen);
+
 
 /* ---------- Konfetti (wie beim Bruchrechnen) ---------- */
 const kFarben=["#1976d2","#e53935","#f59e0b","#1ea64b","#8e24aa","#00bcd4","#ff4081"];
@@ -310,6 +616,7 @@ function feiern(){
     setTimeout(()=>k.remove(),6000);
   }
 }
+wendeSpracheAn();
 neueAufgabe();
 
 if ("serviceWorker" in navigator) {
